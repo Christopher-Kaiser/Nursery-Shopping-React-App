@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
@@ -9,27 +11,58 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    // Initialize a variable total to hold the cumulative sum
+    let total = 0;
+    
+    // Iterate over the cart array
+    cart.forEach(item => {
+      // For each item, extract its quantity and cost
+      const quantity = item.quantity;
+      const costString = item.cost;
+      
+      // Convert the cost string to a number then multiply it by the quantity
+      const costNumber = parseFloat(costString.substring(1));
+      const itemTotal = costNumber * quantity;
+      
+      // Add the resulting value to total
+      total += itemTotal;
+    });
+    
+    // After processing all items, return the final total sum
+    return total.toFixed(2);
   };
 
   const handleContinueShopping = (e) => {
-   
+    e.preventDefault();
+    onContinueShopping();
   };
 
-
+  const handleCheckoutShopping = (e) => {
+    e.preventDefault();
+    // For further exploration and practice
+    // This function can be expanded to handle checkout process
+    alert(`Checkout completed! Total amount: $${calculateTotalAmount()}\nThank you for shopping at Paradise Nursery!`);
+    
+    // Optional: Clear the cart after successful checkout
+    // cart.forEach(item => dispatch(removeItem(item)));
+  };
 
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ item, newQuantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
-   
+    dispatch(updateQuantity({ item, newQuantity: item.quantity - 1 }));
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    const price = parseFloat(item.cost.replace('$', ''));
+    return (price * item.quantity).toFixed(2);
   };
 
   return (
@@ -57,7 +90,7 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
     </div>
   );
