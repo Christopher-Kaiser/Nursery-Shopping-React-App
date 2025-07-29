@@ -40,10 +40,10 @@ const CartItem = ({ onContinueShopping }) => {
   const handleCheckoutShopping = (e) => {
     e.preventDefault();
     // For further exploration and practice
-    // This function can be expanded to handle checkout process
+    // This function to be expanded to handle checkout process
     alert(`Checkout completed! Total amount: $${calculateTotalAmount()}\nThank you for shopping at Paradise Nursery!`);
     
-    // Optional: Clear the cart after successful checkout
+    // Optional addition for later: Clear the cart after successful checkout
     // cart.forEach(item => dispatch(removeItem(item)));
   };
 
